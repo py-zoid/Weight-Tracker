@@ -6,5 +6,4 @@ class UserObject {
   final FirebaseUser user;
 
   UserObject({@required this.message, @required this.user});
-
 }

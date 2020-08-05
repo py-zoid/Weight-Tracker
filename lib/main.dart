@@ -77,8 +77,7 @@ class App extends StatelessWidget {
                 return AuthParent(
                   userRepository: _userRepository,
                 );
-              }
-              else if (state is VerifyState) {
+              } else if (state is VerifyState) {
                 return SplashScreen();
               }
               return Container();
@@ -89,4 +88,3 @@ class App extends StatelessWidget {
     );
   }
 }
-

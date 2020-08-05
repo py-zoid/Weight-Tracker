@@ -6,5 +6,4 @@ class WeightObject {
   final double weight;
 
   WeightObject({@required this.timestamp, @required this.weight});
-
 }

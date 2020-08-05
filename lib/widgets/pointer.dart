@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class PointerPainter extends CustomPainter {
@@ -10,10 +9,10 @@ class PointerPainter extends CustomPainter {
 
     var path = Path();
 
-    path.moveTo(size.width*0.40, size.height * 0.75);
-    path.lineTo(size.width*0.60, size.height * 0.76);
-    path.lineTo(size.width*0.40, size.height * 0.77);
-    path.lineTo(size.width*0.40, size.height * 0.75);
+    path.moveTo(size.width * 0.40, size.height * 0.75);
+    path.lineTo(size.width * 0.60, size.height * 0.76);
+    path.lineTo(size.width * 0.40, size.height * 0.77);
+    path.lineTo(size.width * 0.40, size.height * 0.75);
 
     canvas.drawPath(path, paint);
   }
