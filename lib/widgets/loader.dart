@@ -19,16 +19,20 @@ class _LoaderState extends State<Loader> with SingleTickerProviderStateMixin {
     super.initState();
     controller =
         AnimationController(vsync: this, duration: Duration(seconds: 5));
-    animation_radius_in= Tween<double>(begin: 1.0, end: 0.0).animate(
-        CurvedAnimation(parent: controller, curve: Interval(0.75, 1.0, curve: Curves.elasticIn)));
-    animation_radius_out= Tween<double>(begin: 0.0, end: 1.0).animate(
-        CurvedAnimation(parent: controller, curve: Interval(0.0, 0.25, curve: Curves.elasticOut)));
+    animation_radius_in = Tween<double>(begin: 1.0, end: 0.0).animate(
+        CurvedAnimation(
+            parent: controller,
+            curve: Interval(0.75, 1.0, curve: Curves.elasticIn)));
+    animation_radius_out = Tween<double>(begin: 0.0, end: 1.0).animate(
+        CurvedAnimation(
+            parent: controller,
+            curve: Interval(0.0, 0.25, curve: Curves.elasticOut)));
 
     controller.addListener(() {
       setState(() {
-        if(controller.value >= 0.75 && controller.value <= 1.0){
+        if (controller.value >= 0.75 && controller.value <= 1.0) {
           size = animation_radius_in.value * initialSize;
-        }else if(controller.value >= 0.0 && controller.value <= 0.25){
+        } else if (controller.value >= 0.0 && controller.value <= 0.25) {
           size = animation_radius_out.value * initialSize;
         }
       });

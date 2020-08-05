@@ -6,8 +6,7 @@ import 'package:weight_tracker/repository/user.dart';
 import 'login_event.dart';
 import 'login_state.dart';
 
-class LoginBloc extends Bloc<LoginEvent, LoginState>{
-
+class LoginBloc extends Bloc<LoginEvent, LoginState> {
   UserRepository _userRepository = UserRepository();
 
   LoginBloc({@required UserRepository userRepository})
@@ -16,20 +15,20 @@ class LoginBloc extends Bloc<LoginEvent, LoginState>{
         super(LoginState.initial());
 
   @override
-  Stream<LoginState> mapEventToState(LoginEvent event) async*{
-    if(event is LoginUser){
+  Stream<LoginState> mapEventToState(LoginEvent event) async* {
+    if (event is LoginUser) {
       yield LoginState.loading();
       try {
-        UserObject user = await _userRepository.signInEmail(event.email, event.password);
-        if(user.message == 'success') {
+        UserObject user =
+            await _userRepository.signInEmail(event.email, event.password);
+        if (user.message == 'success') {
           yield LoginState.success();
-        }else{
+        } else {
           yield LoginState.failed(user.message);
         }
       } catch (e) {
         yield LoginState.failed(e.toString());
       }
-
     }
   }
 }

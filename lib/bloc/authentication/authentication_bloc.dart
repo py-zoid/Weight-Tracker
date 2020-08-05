@@ -5,8 +5,8 @@ import 'package:weight_tracker/repository/user.dart';
 import 'authentication_event.dart';
 import 'authentication_state.dart';
 
-class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState>{
-
+class AuthenticationBloc
+    extends Bloc<AuthenticationEvent, AuthenticationState> {
   UserRepository _userRepository;
 
   AuthenticationBloc({@required UserRepository userRepository})
@@ -15,13 +15,14 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState>{
         super(VerifyState());
 
   @override
-  Stream<AuthenticationState> mapEventToState(AuthenticationEvent event) async*{
-    if (event is AppStartedEvent){
+  Stream<AuthenticationState> mapEventToState(
+      AuthenticationEvent event) async* {
+    if (event is AppStartedEvent) {
       try {
         FirebaseUser user = await _userRepository.userPersists();
-        if (user != null){
+        if (user != null) {
           yield AuthValidState(user: user);
-        } else{
+        } else {
           yield AuthInvalidState();
         }
       } catch (e) {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:weight_tracker/repository/user.dart';
 import 'package:weight_tracker/widgets/login_form_widget.dart';
+import 'package:weight_tracker/widgets/login_screen_path.dart';
 import 'package:weight_tracker/widgets/signup_form_widget.dart';
 import 'dart:math';
 
@@ -26,7 +27,6 @@ class _AuthParentState extends State<AuthParent> {
 
   final PageController _formController = new PageController();
 
-
   @override
   Widget build(BuildContext context) {
     height = MediaQuery.of(context).size.height;
@@ -34,26 +34,56 @@ class _AuthParentState extends State<AuthParent> {
     return SingleChildScrollView(
       child: Container(
         height: height,
-        child: Column(
+        child: Stack(
           children: [
             header(),
-            Expanded(child: authTextForm()),
-            Align(
-              alignment: _formIndex == 0 ?
-              Alignment.bottomRight
-                  : Alignment.bottomLeft,
-              child: FlatButton(
-                onPressed: (){
-                  if(_formIndex == 0){
-                    _formController.animateToPage(1, duration: Duration(milliseconds: 400), curve: Curves.ease);
-                  }else{
-                    _formController.animateToPage(0, duration: Duration(milliseconds: 400), curve: Curves.ease);
-                  }
-                },
-                  child: Text(
-                    _formIndex == 0 ? 'Sign Up' : 'Sign In',
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Flexible(
+                  child: FractionallySizedBox(
+                    heightFactor: 0.5,
+                  ),
                 ),
-              ),
+                Flexible(
+                    child: FractionallySizedBox(
+                        heightFactor: 1.2, child: authTextForm())),
+                Container(
+                  height: height * 0.1,
+                  child: Align(
+                    alignment: _formIndex == 0
+                        ? Alignment.bottomRight
+                        : Alignment.bottomLeft,
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: FlatButton(
+                        onPressed: () {
+                          if (_formIndex == 0) {
+                            _formController.animateToPage(1,
+                                duration: Duration(milliseconds: 400),
+                                curve: Curves.ease);
+                          } else {
+                            _formController.animateToPage(0,
+                                duration: Duration(milliseconds: 400),
+                                curve: Curves.ease);
+                          }
+                        },
+                        child: Column(
+                          children: [
+                            Icon(_formIndex == 0
+                                ? Icons.arrow_forward
+                                : Icons.arrow_back),
+                            Text(
+                              _formIndex == 0 ? 'Sign Up' : 'Sign In',
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
@@ -65,12 +95,9 @@ class _AuthParentState extends State<AuthParent> {
     return Container(
       child: Stack(
         children: [
-          Container(
-            width: width,
-            child: Image.asset(
-              "assets/login_screen_wave.png",
-              fit: BoxFit.fitWidth,
-            ),
+          CustomPaint(
+            size: MediaQuery.of(context).size,
+            painter: LoginPainter(),
           ),
           Positioned(
             top: height / 6,
@@ -95,10 +122,10 @@ class _AuthParentState extends State<AuthParent> {
     return Container(
       child: PageView(
         controller: _formController,
-        onPageChanged: (index){
-            setState(() {
-              _formIndex = (_formIndex + 1) % 2;
-            });
+        onPageChanged: (index) {
+          setState(() {
+            _formIndex = (_formIndex + 1) % 2;
+          });
         },
         children: [
           LoginParent(userRepository: widget._userRepository),

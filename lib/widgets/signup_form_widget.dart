@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weight_tracker/bloc/authentication/authentication_bloc.dart';
@@ -19,7 +20,8 @@ class SignUpParent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<UserRegistrationBloc>(
-      create: (context) => UserRegistrationBloc(userRepository: _userRepository),
+      create: (context) =>
+          UserRegistrationBloc(userRepository: _userRepository),
       child: SignUpScreen(userRepository: _userRepository),
     );
   }
@@ -62,17 +64,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
       isPasswordValid = _passwordRegEx.hasMatch(password);
     });
 
-    if (!isNameValid){
+    if (!isNameValid) {
       setState(() {
         errorMessage = 'All fields are required';
       });
-    }else if (!isEmailValid){
+    } else if (!isEmailValid) {
       setState(() {
         errorMessage = 'Please enter a valid email';
       });
-    }else if(!isPasswordValid){
+    } else if (!isPasswordValid) {
       setState(() {
-        errorMessage = 'Password must contain a number and greater than 8 characters';
+        errorMessage =
+            'Password must contain a number and greater than 8 characters';
       });
     }
   }
@@ -96,6 +99,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
+    print(MediaQuery.of(context).devicePixelRatio);
     return BlocListener<UserRegistrationBloc, UserRegistrationState>(
       listener: (context, state) {
         if (state.isFailed) {
@@ -106,46 +110,63 @@ class _SignUpScreenState extends State<SignUpScreen> {
           BlocProvider.of<AuthenticationBloc>(context).add(AppStartedEvent());
         }
       },
-      child: BlocBuilder<UserRegistrationBloc, UserRegistrationState>(builder: (context, state) {
-        return Column(
-          children: [
-            authValidation(),
-            authTextFields(),
-            RaisedButton(
-              onPressed: () {
-                authFieldValidity(
-                    _nameController.text, _emailController.text, _passwordController.text);
-                if(isNameValid && isPasswordValid && isEmailValid){
-                  _signupBloc.add(RegisterUserEvent(
-                    name: _nameController.text,
-                    email: _emailController.text,
-                    password: _passwordController.text,
-                  ));
-                }
-              },
-              child: Text('Sign Up'),
-            ),
-          ],
-        );
+      child: BlocBuilder<UserRegistrationBloc, UserRegistrationState>(
+          builder: (context, state) {
+        return form();
       }),
     );
   }
 
-
-  Widget authValidation() {
-    return errorMessage != null ? Text(errorMessage, style: TextStyle(color: Theme.of(context).errorColor),) : Container();
+  Widget form() {
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        Flexible(
+            child: FractionallySizedBox(
+          heightFactor: 0.7,
+        )),
+        authValidation(),
+        authTextFields(),
+        RaisedButton(
+          onPressed: () {
+            authFieldValidity(_nameController.text, _emailController.text,
+                _passwordController.text);
+            if (isNameValid && isPasswordValid && isEmailValid) {
+              _signupBloc.add(RegisterUserEvent(
+                name: _nameController.text,
+                email: _emailController.text,
+                password: _passwordController.text,
+              ));
+            }
+          },
+          child: Text('Sign Up'),
+        ),
+        Flexible(
+            child: FractionallySizedBox(
+          heightFactor: 0.3,
+        )),
+      ],
+    );
   }
 
+  Widget authValidation() {
+    return errorMessage != null
+        ? Text(
+            errorMessage,
+            style: TextStyle(color: Theme.of(context).errorColor),
+          )
+        : Container();
+  }
 
   Widget authTextFields() {
     return Container(
+      margin: EdgeInsets.symmetric(vertical: 10.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Align(
             alignment: Alignment.centerLeft,
             child: Container(
-              margin: EdgeInsets.only(top: 30),
               width: width / 1.2,
               color: Colors.deepOrange[100],
               child: TextFormField(
@@ -159,10 +180,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
             ),
           ),
+          SizedBox(
+            height: 10.0,
+          ),
           Align(
             alignment: Alignment.centerLeft,
             child: Container(
-              margin: EdgeInsets.only(top: 15),
               width: width / 1.2,
               color: Colors.deepOrange[100],
               child: TextFormField(
@@ -176,10 +199,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
             ),
           ),
+          SizedBox(
+            height: 10.0,
+          ),
           Align(
             alignment: Alignment.centerRight,
             child: Container(
-              margin: EdgeInsets.only(top: 15, bottom: 10),
               width: width / 1.2,
               color: Colors.deepOrange[100],
               child: TextFormField(

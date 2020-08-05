@@ -12,7 +12,8 @@ class UserRepository {
     this.firestore = Firestore.instance;
   }
 
-  Future<UserObject> signUpEmail(String email, String password, String name) async{
+  Future<UserObject> signUpEmail(
+      String email, String password, String name) async {
     try {
       AuthResult result = await firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
@@ -23,29 +24,27 @@ class UserRepository {
       });
 
       return UserObject(message: 'success', user: result.user);
-
-    }catch(e){
+    } catch (e) {
       return UserObject(message: e.message, user: null);
     }
   }
 
-  Future<UserObject> signInEmail(String email, String password) async{
-    try{
+  Future<UserObject> signInEmail(String email, String password) async {
+    try {
       AuthResult result = await firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
 
       return UserObject(message: 'success', user: result.user);
-
-    }catch(e){
+    } catch (e) {
       return UserObject(message: e.message, user: null);
     }
   }
 
-  Future<void> signOut() async{
+  Future<void> signOut() async {
     await firebaseAuth.signOut();
   }
 
-  Future<FirebaseUser> userPersists() async{
+  Future<FirebaseUser> userPersists() async {
     FirebaseUser user = await firebaseAuth.currentUser();
     return user;
   }

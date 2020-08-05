@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weight_tracker/bloc/authentication/authentication_bloc.dart';
@@ -58,11 +59,11 @@ class _LoginScreenState extends State<LoginScreen> {
       isEmailValid = _emailRegEx.hasMatch(email);
       isPasswordValid = _passwordRegEx.hasMatch(password);
     });
-    if (!isEmailValid){
+    if (!isEmailValid) {
       setState(() {
         errorMessage = 'Please enter a valid email';
       });
-    }else if(!isPasswordValid){
+    } else if (!isPasswordValid) {
       setState(() {
         errorMessage = 'Password is not valid';
       });
@@ -98,44 +99,57 @@ class _LoginScreenState extends State<LoginScreen> {
         }
       },
       child: BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
-        return Column(
-          children: [
-            authValidation(),
-            authTextFields(),
-            RaisedButton(
-              onPressed: () {
-                authFieldValidity(
-                    _emailController.text, _passwordController.text);
-                if(isPasswordValid && isEmailValid){
-                  _loginBloc.add(LoginUser(
-                    email: _emailController.text,
-                    password: _passwordController.text,
-                  ));
-                }
-              },
-              child: Text('Sign In'),
-            ),
-          ],
+        return Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Flexible(
+                  child: FractionallySizedBox(
+                heightFactor: 0.7,
+              )),
+              authValidation(),
+              authTextFields(),
+              RaisedButton(
+                onPressed: () {
+                  authFieldValidity(
+                      _emailController.text, _passwordController.text);
+                  if (isPasswordValid && isEmailValid) {
+                    _loginBloc.add(LoginUser(
+                      email: _emailController.text,
+                      password: _passwordController.text,
+                    ));
+                  }
+                },
+                child: Text('Sign In'),
+              ),
+              Flexible(
+                  child: FractionallySizedBox(
+                heightFactor: 0.3,
+              )),
+            ],
+          ),
         );
       }),
     );
   }
 
-
   Widget authValidation() {
-    return errorMessage != null ? Text(errorMessage, style: TextStyle(color: Theme.of(context).errorColor),) : Container();
+    return errorMessage != null
+        ? Text(
+            errorMessage,
+            style: TextStyle(color: Theme.of(context).errorColor),
+          )
+        : Container();
   }
-
 
   Widget authTextFields() {
     return Container(
+      margin: EdgeInsets.symmetric(vertical: 10.0),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Align(
             alignment: Alignment.centerLeft,
             child: Container(
-              margin: EdgeInsets.only(top: 40),
               width: width / 1.2,
               color: Colors.deepOrange[100],
               child: TextFormField(
@@ -149,10 +163,13 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ),
+          SizedBox(
+            height: 10.0,
+          ),
           Align(
             alignment: Alignment.centerRight,
             child: Container(
-              margin: EdgeInsets.only(top: 20),
+//              margin: EdgeInsets.only(top: 20),
               width: width / 1.2,
               color: Colors.deepOrange[100],
               child: TextFormField(
@@ -166,9 +183,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
-          ),
-          SizedBox(
-            height: 10.0,
           ),
         ],
       ),

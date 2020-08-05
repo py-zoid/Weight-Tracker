@@ -31,7 +31,10 @@ class HomeParent extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<SignoutBloc>(
       create: (context) => SignoutBloc(userRepository: _userRepository),
-      child: HomeScreen(userRepository: _userRepository, user: _user,),
+      child: HomeScreen(
+        userRepository: _userRepository,
+        user: _user,
+      ),
     );
   }
 }
@@ -71,7 +74,6 @@ class HomeScreen extends StatelessWidget {
             height: height,
             child: Stack(
               children: [
-                header(),
                 CustomPaint(
                   size: MediaQuery.of(context).size,
                   painter: CurvePainter(),
@@ -80,7 +82,10 @@ class HomeScreen extends StatelessWidget {
                   size: MediaQuery.of(context).size,
                   painter: PointerPainter(),
                 ),
-                UserDataParent(databaseRepository: _databaseRepository, user: _user,),
+                UserDataParent(
+                  databaseRepository: _databaseRepository,
+                  user: _user,
+                ),
                 signOut(),
               ],
             ),
@@ -90,7 +95,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget signOut(){
+  Widget signOut() {
     return Container(
       height: 50.0,
       margin: EdgeInsets.symmetric(vertical: 50.0, horizontal: 15.0),
@@ -103,16 +108,6 @@ class HomeScreen extends StatelessWidget {
           child: SignOut(),
         ),
       ),
-    );
-  }
-
-  Widget header() {
-    return Container(
-            width: width,
-            child: Image.asset(
-              "assets/home_screen_wave.png",
-              fit: BoxFit.fitWidth,
-            ),
     );
   }
 }
