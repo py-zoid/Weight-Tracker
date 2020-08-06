@@ -228,14 +228,10 @@ class _UserDataParentState extends State<UserDataParent> {
                 child: ListWheelScrollView.useDelegate(
                   itemExtent: height * 0.1,
                   onSelectedItemChanged: (value) {
-                    setState(() {
                       _currentIndex = value;
                       _selectedWeightBloc
                           .updateText(documents[value]['weight'].toString());
                       _currentDoc = documents[value].documentID;
-                      _editController.text =
-                          documents[value]['weight'].toString();
-                    });
                   },
                   renderChildrenOutsideViewport: false,
                   childDelegate: ListWheelChildBuilderDelegate(
